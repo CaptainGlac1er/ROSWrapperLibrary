@@ -1,0 +1,40 @@
+plugins {
+    id 'application'
+}
+
+
+// Include dependent libraries in archive.
+mainClassName = "edu.rit.mitappinventor.roswrapperlibrary"
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        name "rosjava-github"
+        url "https://github.com/rosjava/rosjava_mvn_repo/raw/master"
+    }
+}
+
+configurations {
+    all*.exclude group: 'org.ros.rosjava_bootstrap', module: 'gradle_plugins'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "org.ros.rosjava_core:rosjava:[0.3.2,0.4)"
+    compile "org.ros.rosjava_messages:diagnostic_msgs:[1.12,1.13)"
+    compile "org.ros.rosjava_messages:sensor_msgs:[1.12,1.13)"
+    compile 'org.ros.rosjava_core:rosjava_geometry:[0.3,0.4)'
+    compile 'org.ros.rosjava_messages:visualization_msgs:[1.12,1.13)'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
