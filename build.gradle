@@ -1,4 +1,7 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+
 plugins {
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'application'
 }
 
@@ -16,11 +19,17 @@ repositories {
     }
 }
 
+shadowJar {
+    configurations = [project.configurations.compile]
+}
+
 configurations {
     all*.exclude group: 'org.ros.rosjava_bootstrap', module: 'gradle_plugins'
 }
 
 dependencies {
+    shadow localGroovy()
+    shadow gradleApi()
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "org.ros.rosjava_core:rosjava:[0.3.2,0.4)"
     compile "org.ros.rosjava_messages:diagnostic_msgs:[1.12,1.13)"
@@ -38,3 +47,10 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
