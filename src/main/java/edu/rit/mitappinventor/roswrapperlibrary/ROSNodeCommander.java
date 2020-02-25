@@ -1,7 +1,6 @@
 package edu.rit.mitappinventor.roswrapperlibrary;
 
-import org.ros.node.DefaultNodeMainExecutor;
-import org.ros.node.NodeMainExecutor;
+import org.ros.node.*;
 
 public class ROSNodeCommander {
     NodeMainExecutor nodeMainExecutor;
@@ -14,8 +13,8 @@ public class ROSNodeCommander {
         this.nodeConfiguration = nodeConfiguration;
     }
 
-    public void executeNode(ROSNodeMain thing) {
+    public void executeNode(NodeMain thing) {
         this.nodeMainExecutor.execute(thing, nodeConfiguration.getConfig());
     }
-
 }
+

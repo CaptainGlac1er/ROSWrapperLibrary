@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 
 public class ROSNodeConfiguration {
     private URI masterURI;
-    ROSNodeConfiguration(String url) throws URISyntaxException {
+    public ROSNodeConfiguration(String url) throws URISyntaxException {
         masterURI = new URI(url);
     }
 

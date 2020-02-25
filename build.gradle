@@ -36,6 +36,8 @@ dependencies {
     compile "org.ros.rosjava_messages:sensor_msgs:[1.12,1.13)"
     compile 'org.ros.rosjava_core:rosjava_geometry:[0.3,0.4)'
     compile 'org.ros.rosjava_messages:visualization_msgs:[1.12,1.13)'
+    compile 'org.ros.rosjava_messages:std_msgs:[0.5.11,0.5.12)'
+    compile 'org.ros.rosjava_bootstrap:message_generation:[0.3.3,0.3.4)'
 }
 
 jar {
@@ -50,6 +52,7 @@ jar {
 
 
 task relocateShadowJar(type: ConfigureShadowRelocation) {
+    prefix = "edu.rit.appinventor"
     target = tasks.shadowJar
 }
 
